@@ -1,11 +1,15 @@
 'use strict';
 
-const ipToInt = (ip = '127.0.0.1') => {
-  // Parse ip address as string, for example '10.0.0.1'
-  // to ['10', '0', '0', '1'] to [10, 0, 0, 1]
-  // and convert to Number value 167772161 with bitwise shift
-  // (10 << 8 << 8 << 8) + (0 << 8 << 8) + (0 << 8) + 1 === 167772161
-  // Use Array.prototype.reduce of for loop
+const bitWise = (int, repeat) => {
+  let result = int;
+  for (let i = 0; i < repeat; i++) {
+    result <<= 8;
+  }
+  return result;
 };
+
+const ipToInt = (ip = '127.0.0.1') =>
+  ip.split('.').map(Number).reverse().map((element, index) =>
+    bitWise(element, index)).reduce((acc, cur) => acc + cur);
 
 module.exports = { ipToInt };
